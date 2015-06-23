@@ -30,10 +30,10 @@ Scratchbox2 preload library.
 uname -m
 ./autogen.sh
 ./configure; touch .configure
-make
+make regular
 
 %install
-make install prefix=%{buildroot}/usr
+make do-install prefix=%{buildroot}/usr
 
 install -D -m 644 utils/sb2.bash %{buildroot}/etc/bash_completion.d/sb2.bash
 
@@ -48,6 +48,4 @@ install -D -m 644 utils/sb2.bash %{buildroot}/etc/bash_completion.d/sb2.bash
 %files -n libsb2
 %defattr(-,root,root)
 %{_libdir}/libsb2/*
-%ifarch x86_64
-/usr/lib32/libsb2/*
-%endif
+
