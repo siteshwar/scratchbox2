@@ -19,11 +19,11 @@ SHLIBEXT = dylib
 endif
 
 # pick main build bitness
-ifeq ($(MACH),x86_64)
+#ifeq ($(MACH),x86_64)
 PRI_OBJDIR = obj-64
-else
-PRI_OBJDIR = obj-32
-endif
+#else
+#PRI_OBJDIR = obj-32
+#endif
 
 CC = gcc
 CXX = g++
@@ -109,6 +109,9 @@ do-all: $(targets)
 	fi)
 
 include/scratchbox2_version.h: .version Makefile
+	ls -alR
+	ls include
+	touch include/scratchbox2_version.h
 	echo "/* Automatically generated file. Do not edit. */" >include/scratchbox2_version.h
 	echo '#define SCRATCHBOX2_VERSION "'`cat .version`'"' >>include/scratchbox2_version.h
 	echo '#define LIBSB2_SONAME "'$(LIBSB2_SONAME)'"' >>include/scratchbox2_version.h
@@ -117,9 +120,9 @@ regular: .configure .version
 	@$(MAKE) -f $(SRCDIR)/Makefile --include-dir=$(SRCDIR) SRCDIR=$(SRCDIR) do-all
 
 multilib:
-	@mkdir -p obj-32
+	#@mkdir -p obj-32
 	@mkdir -p obj-64
-	@$(MAKE) MACH_CFLAG=-m32 -C obj-32 --include-dir=.. -f ../Makefile SRCDIR=.. regular
+	#@$(MAKE) MACH_CFLAG=-m32 -C obj-32 --include-dir=.. -f ../Makefile SRCDIR=.. regular
 	@$(MAKE) MACH_CFLAG=-m64 -C obj-64 --include-dir=.. -f ../Makefile SRCDIR=.. regular
 
 
@@ -256,7 +259,7 @@ endif
 multilib_prefix=$(prefix)
 
 install-multilib: multilib
-	@$(MAKE) -C obj-32 --include-dir=.. -f ../Makefile SRCDIR=.. do-install-multilib bitness=32
+	#@$(MAKE) -C obj-32 --include-dir=.. -f ../Makefile SRCDIR=.. do-install-multilib bitness=32
 	@$(MAKE) -C obj-64 --include-dir=.. -f ../Makefile SRCDIR=.. do-install
 
 do-install-multilib:
@@ -275,12 +278,12 @@ CLEAN_FILES += $(targets) config.status config.log
 
 superclean: clean
 	$(P)CLEAN
-	$(Q)rm -rf obj-32 obj-64 .configure-multilib .configure
+	#$(Q)rm -rf obj-32 obj-64 .configure-multilib .configure
 	$(Q)rm -rf include/config.h config.mak
 
 clean-multilib:
 	$(P)CLEAN
-	-$(Q)$(MAKE) -C obj-32 --include-dir=.. -f ../Makefile SRCDIR=.. do-clean
+	#-$(Q)$(MAKE) -C obj-32 --include-dir=.. -f ../Makefile SRCDIR=.. do-clean
 	-$(Q)$(MAKE) -C obj-64 --include-dir .. -f ../Makefile SRCDIR=.. do-clean
 
 ifeq ($(MACH),x86_64)

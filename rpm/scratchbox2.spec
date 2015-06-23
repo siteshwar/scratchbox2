@@ -7,7 +7,7 @@ Release:	14
 Source: 	%{name}-%{version}.tar.gz
 Prefix: 	/usr
 Group: 		Development/Tools
-ExclusiveArch:	%{ix86}
+
 BuildRequires:	make
 BuildRequires:	autoconf
 Requires:	fakeroot
@@ -27,6 +27,7 @@ Scratchbox2 preload library.
 %setup -q -n %{name}-%{version}/%{name}
 
 %build
+uname -m
 ./autogen.sh
 ./configure; touch .configure
 make
